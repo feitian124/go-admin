@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+
+  gocms-mysql:
+    image: 'mysql:5.7'
+    container_name: gocms-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+      # MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - 3306:3306
+    volumes:
+      - './docker-compose/mysql/conf.d:/etc/mysql/conf.d'
+      - './docker-compose/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
+      - './docker-compose/mysql/sql:/opt/sql'
+
+  gocms-redis:
+    image: redis:6
+    container_name: gocms-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - './docker-compose/redis/conf/redis.conf:/etc/redis/redis.conf'
+      - './docker-compose/redis/data:/data'
+    command:
+      redis-server /etc/redis/redis.conf --appendonly yes
