@@ -12,3 +12,9 @@ build-sqlite:
 #.PHONY: docker
 #docker:
 #	docker build . -t go-admin:latest
+
+.PHONY: check
+check:
+	go mod tidy
+	go fmt ./...
+	go vet ./... | grep -v vendor ; true
